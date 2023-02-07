@@ -8,7 +8,7 @@
     "test": "gulp test",
     "test:unit": "npx jest --silent --maxWorkers=4",
     "serve": "gulp bundle --custom-serve --max_old_space_size=4096 && fast-serve",
-    "prepublishOnly": "gulp",
+    "prepublishOnly": "gulp build",
     "versionUpdater": "gulp versionUpdater",
     "karma": "karma start --circle true",
     "changelog": "node scripts/create-changelog.js && node scripts/sync-changelogs.js && gulp versionUpdater",
