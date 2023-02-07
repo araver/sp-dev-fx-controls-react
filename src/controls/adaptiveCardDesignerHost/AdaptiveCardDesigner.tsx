@@ -1,6 +1,6 @@
 import * as monacoLoader from '@monaco-editor/loader';
-import { Versions } from 'adaptivecards';
-import { BindingPreviewMode, CardDesigner, FieldDefinition, GlobalSettings, HostContainer, ToolbarChoicePicker } from 'adaptivecards-designer';
+import { Versions, GlobalRegistry } from 'adaptivecards';
+import { BindingPreviewMode, CardDesigner, FieldDefinition, GlobalSettings, HostContainer, ToolbarChoicePicker, CardDesignerSurface } from 'adaptivecards-designer';
 import * as markdownit from 'markdown-it';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
@@ -62,7 +62,17 @@ export const AdaptiveCardDesigner = (props: IAdaptiveCardDesignerHostProps): JSX
         if (props.addDefaultAdaptiveCardHostContainer) {
             initializeDesignerPeers();
         }
-
+        if (props.customElements) {
+            props.customElements.forEach(i => {
+                try{
+                    GlobalRegistry.elements.register(i.typeName, i.element, i.schemaVersion, i.singletonBehavior);
+                    CardDesignerSurface.cardElementPeerRegistry.registerPeer(i.element, i.peerElement, "Elements", "acd-icon-inputChoiceSet")
+                }catch(ex){
+                    console.log("ERROR", ex)
+                }
+     
+            })
+        }
         GlobalSettings.enableDataBindingSupport = props.enableDataBindingSupport;
         GlobalSettings.selectedHostContainerControlsTargetVersion = props.selectedHostContainerControlsTargetVersion;
         GlobalSettings.showDataStructureToolbox = props.showDataStructureToolbox;
@@ -72,6 +82,7 @@ export const AdaptiveCardDesigner = (props: IAdaptiveCardDesignerHostProps): JSX
         GlobalSettings.supportedTargetVersions = props.supportedTargetVersions;
 
     }, [props.addDefaultAdaptiveCardHostContainer,
+        props.customElements,
     props.enableDataBindingSupport,
     props.selectedHostContainerControlsTargetVersion,
     props.showDataStructureToolbox,
