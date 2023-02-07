@@ -2,8 +2,8 @@ import { IPartialTheme, ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { BaseComponentContext } from '@microsoft/sp-component-base';
 import { HostContainer } from 'adaptivecards-designer/lib/containers';
 import { BindingPreviewMode, CardElementPeerType, CardElementType } from 'adaptivecards-designer/lib/card-designer-surface';
-import { CardElement, ElementSingletonBehavior, Version } from 'adaptivecards';
-import {CardElementPeer} from "adaptivecards-designer/lib/designer-peers";
+import { ElementSingletonBehavior, Version } from 'adaptivecards';
+
 export interface IToolboxSnippet {
   name: string;
   category: string;
@@ -15,7 +15,9 @@ export interface ICustomElement{
   peerElement: CardElementPeerType;
   typeName: string;
   schemaVersion?: Version;
-  singletonBehavior?: ElementSingletonBehavior
+  singletonBehavior?: ElementSingletonBehavior;
+  iconClassName?: string;
+  groupName?: string;
 }
 
 export interface IAdaptiveCardDesignerProps {
@@ -119,6 +121,9 @@ export interface IAdaptiveCardDesignerProps {
     * Inject the SPFx Context Property inside the Adaptive Card data object.
     */
   injectAdaptiveCardHostContextProperty?: boolean;
+  /**
+   * Add custom elements to the designer
+   */
   customElements?: ICustomElement[]
 }
 

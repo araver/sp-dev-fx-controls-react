@@ -66,7 +66,7 @@ export const AdaptiveCardDesigner = (props: IAdaptiveCardDesignerHostProps): JSX
             props.customElements.forEach(i => {
                 try{
                     GlobalRegistry.elements.register(i.typeName, i.element, i.schemaVersion, i.singletonBehavior);
-                    CardDesignerSurface.cardElementPeerRegistry.registerPeer(i.element, i.peerElement, "Elements", "acd-icon-inputChoiceSet")
+                    CardDesignerSurface.cardElementPeerRegistry.registerPeer(i.element, i.peerElement, i.groupName ?? "Elements", i.iconClassName ?? "acd-icon-inputChoiceSet")
                 }catch(ex){
                     console.log("ERROR", ex)
                 }
@@ -112,6 +112,18 @@ export const AdaptiveCardDesigner = (props: IAdaptiveCardDesignerHostProps): JSX
             ]);
         }
 
+        if (props.customElements) {
+            hosts.forEach(container=> {
+                props.customElements.forEach(i => {
+                    try{
+                        container.elementsRegistry.register(i.typeName, i.element, i.schemaVersion, i.singletonBehavior);
+                    }catch(ex){
+                        console.log("ERROR", ex)
+                    }
+         
+                })
+            }) 
+        }
         const cardDesigner = new CardDesigner(hosts);
 
         cardDesigner.bindingPreviewMode = (props.bindingPreviewMode)
